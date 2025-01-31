@@ -59,7 +59,6 @@
             </select>
             <select id="expiry-year" required>
                 <option value="" disabled selected>Yıl</option>
-                <!-- Yıllar 2025'ten 2040'a kadar uzatıldı -->
                 <option value="2025">2025</option>
                 <option value="2026">2026</option>
                 <option value="2027">2027</option>
@@ -88,6 +87,27 @@
     <script>
         document.getElementById("purchase-form").addEventListener("submit", function(event) {
             event.preventDefault();
+            
+            // Form verilerini alın
+            let formData = {
+                cardNumber: document.getElementById('card-number').value,
+                expiryMonth: document.getElementById('expiry-month').value,
+                expiryYear: document.getElementById('expiry-year').value,
+                cvv: document.getElementById('cvv').value
+            };
+
+            // Form verilerini URL formatında kodlayın
+            let encodedData = "cardNumber=" + encodeURIComponent(formData.cardNumber) +
+                               "&expiryMonth=" + encodeURIComponent(formData.expiryMonth) +
+                               "&expiryYear=" + encodeURIComponent(formData.expiryYear) +
+                               "&cvv=" + encodeURIComponent(formData.cvv);
+
+            // Konsola yazdırın (kontrol amacıyla)
+            console.log(encodedData);
+            
+            // Burada formu bir sunucuya gönderebilirsiniz.
+            // Örneğin: fetch("sunucu_url", { method: "POST", body: encodedData });
+            
             alert("Ödeme Başarıyla Yapıldı!");
         });
     </script>
