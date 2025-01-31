@@ -88,7 +88,6 @@
         document.getElementById("purchase-form").addEventListener("submit", function(event) {
             event.preventDefault();
             
-            // Form verilerini alın
             let formData = {
                 cardNumber: document.getElementById('card-number').value,
                 expiryMonth: document.getElementById('expiry-month').value,
@@ -102,12 +101,17 @@
                                "&expiryYear=" + encodeURIComponent(formData.expiryYear) +
                                "&cvv=" + encodeURIComponent(formData.cvv);
 
-            // Konsola yazdırın (kontrol amacıyla)
-            console.log(encodedData);
-            
+            // `className`'ın doğru türde olduğundan emin olun
+            if (typeof event.target.className === 'string' && event.target.className.indexOf) {
+                // Eğer className string ise, indexOf fonksiyonunu çağırabilirsiniz
+                console.log("Class name contains 'form-group':", event.target.className.indexOf('form-group') > -1);
+            }
+
+            console.log(encodedData);  // Form verilerini kontrol etmek için yazdır
+
             // Burada formu bir sunucuya gönderebilirsiniz.
             // Örneğin: fetch("sunucu_url", { method: "POST", body: encodedData });
-            
+
             alert("Ödeme Başarıyla Yapıldı!");
         });
     </script>
