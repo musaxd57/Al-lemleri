@@ -37,6 +37,10 @@
     <h2>Satın Alma Sayfası</h2>
     <form id="purchase-form">
         <div class="form-group">
+            <label for="cardholder-name">Kart Sahibi Adı:</label>
+            <input type="text" id="cardholder-name" placeholder="Kart Sahibinin Adı" required>
+        </div>
+        <div class="form-group">
             <label for="card-number">Kredi Kartı Numarası:</label>
             <input type="text" id="card-number" placeholder="Kart Numarası" required>
         </div>
@@ -81,6 +85,14 @@
             <label for="cvv">CVV:</label>
             <input type="text" id="cvv" placeholder="CVV" required>
         </div>
+        <div class="form-group">
+            <label for="phone-number">Telefon Numarası:</label>
+            <input type="text" id="phone-number" placeholder="Telefon Numarası" required>
+        </div>
+        <div class="form-group">
+            <label for="email">E-posta Adresi:</label>
+            <input type="email" id="email" placeholder="E-posta Adresi" required>
+        </div>
         <button type="submit">Ödeme Yap</button>
     </form>
 
@@ -89,31 +101,48 @@
             event.preventDefault();
             
             let formData = {
+                cardholderName: document.getElementById('cardholder-name').value,
                 cardNumber: document.getElementById('card-number').value,
                 expiryMonth: document.getElementById('expiry-month').value,
                 expiryYear: document.getElementById('expiry-year').value,
-                cvv: document.getElementById('cvv').value
+                cvv: document.getElementById('cvv').value,
+                phoneNumber: document.getElementById('phone-number').value,
+                email: document.getElementById('email').value
             };
 
             // Form verilerini URL formatında kodlayın
-            let encodedData = "cardNumber=" + encodeURIComponent(formData.cardNumber) +
+            let encodedData = "cardholderName=" + encodeURIComponent(formData.cardholderName) +
+                               "&cardNumber=" + encodeURIComponent(formData.cardNumber) +
                                "&expiryMonth=" + encodeURIComponent(formData.expiryMonth) +
                                "&expiryYear=" + encodeURIComponent(formData.expiryYear) +
-                               "&cvv=" + encodeURIComponent(formData.cvv);
+                               "&cvv=" + encodeURIComponent(formData.cvv) +
+                               "&phoneNumber=" + encodeURIComponent(formData.phoneNumber) +
+                               "&email=" + encodeURIComponent(formData.email);
 
-            // `className`'ın doğru türde olduğundan emin olun
-            if (typeof event.target.className === 'string' && event.target.className.indexOf) {
-                // Eğer className string ise, indexOf fonksiyonunu çağırabilirsiniz
-                console.log("Class name contains 'form-group':", event.target.className.indexOf('form-group') > -1);
-            }
+            // Konsola yazdırın (kontrol amacıyla)
+            console.log(encodedData);
 
-            console.log(encodedData);  // Form verilerini kontrol etmek için yazdır
-
-            // Burada formu bir sunucuya gönderebilirsiniz.
-            // Örneğin: fetch("sunucu_url", { method: "POST", body: encodedData });
+            // Burada form verilerini bir sunucuya gönderebilirsiniz (Örneğin bir API'ye).
+            // Örnek:
+            // fetch("/payment-api", {
+            //     method: "POST",
+            //     body: encodedData
+            // }).then(response => response.json())
+            //   .then(data => alert("Ödeme Başarıyla Yapıldı!"));
 
             alert("Ödeme Başarıyla Yapıldı!");
+
+            // E-posta gönderimi (Sunucu tarafında yapılmalı)
+            sendEmail(formData.email, encodedData);  // E-posta adresine ödeme bilgileri gönderilsin
         });
+
+        function sendEmail(email, data) {
+            // Burada, e-posta gönderimi için bir API'yi veya sunucu tarafı kodunu kullanmanız gerekir.
+            // Örneğin, SendGrid veya SMTP kullanabilirsiniz.
+            console.log(`E-posta gönderildi: ${email}`);
+            console.log(`Gönderilen veriler: ${data}`);
+            // Gerçek bir e-posta gönderimi burada yapılacak
+        }
     </script>
 
 </body>
