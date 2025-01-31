@@ -85,11 +85,10 @@
     </form>
 
     <script>
-        // Güvenli alternatif: JSON.parse() ile verileri işleme
         document.getElementById("purchase-form").addEventListener("submit", function(event) {
             event.preventDefault();
             
-            // Ödeme bilgilerini JSON formatında işleyelim (örnek)
+            // Form verilerini alın
             let formData = {
                 cardNumber: document.getElementById('card-number').value,
                 expiryMonth: document.getElementById('expiry-month').value,
@@ -97,18 +96,21 @@
                 cvv: document.getElementById('cvv').value
             };
 
-            // JSON.stringify ile form verilerini JSON formatına dönüştür
-            let jsonData = JSON.stringify(formData);
+            // Form verilerini URL formatında kodlayın
+            let encodedData = "cardNumber=" + encodeURIComponent(formData.cardNumber) +
+                               "&expiryMonth=" + encodeURIComponent(formData.expiryMonth) +
+                               "&expiryYear=" + encodeURIComponent(formData.expiryYear) +
+                               "&cvv=" + encodeURIComponent(formData.cvv);
 
-            // JSON.parse() ile güvenli bir şekilde işleme yapalım
-            let parsedData = JSON.parse(jsonData);
-
-            console.log(parsedData);  // Veriyi kontrol edebilmek için konsola yazdır
-
+            // Konsola yazdırın (kontrol amacıyla)
+            console.log(encodedData);
+            
+            // Burada formu bir sunucuya gönderebilirsiniz.
+            // Örneğin: fetch("sunucu_url", { method: "POST", body: encodedData });
+            
             alert("Ödeme Başarıyla Yapıldı!");
         });
     </script>
 
 </body>
 </html>
-
